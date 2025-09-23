@@ -35,14 +35,7 @@ struct CurrencyConverterView: View {
             .padding(.top, 85)
             .zIndex(0)
             
-            Text("1 PLN = 7.23 UAH")
-                .font(.caption)
-                .fontWeight(.medium)
-                .foregroundColor(.white)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 2)
-                .background(Color.black)
-                .cornerRadius(16)
+            ExchangeRateDisplay(rate: "1 PLN = 7.23 UAH")
                 .offset(y: 105)
                 .zIndex(2)
             
