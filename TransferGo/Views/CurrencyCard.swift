@@ -11,18 +11,20 @@ struct CurrencyCard: View {
     let currency: Currency
     let amount: String
     let amountColor: Color
+    let backgroundColor: Color
+    let topContentPadding: CGFloat
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
-                .font(.caption)
+                .font(.subheadline)
                 .foregroundColor(.gray)
             
-            HStack {
+            HStack(alignment: .top) {
                 HStack {
                     Image(currency.flag)
-                        .resizable()
-                        .frame(width: 30, height: 30)
+                        //.resizable()
+                        .frame(width: 32, height: 34)
                     
                     Text(currency.code)
                         .font(.headline)
@@ -36,13 +38,15 @@ struct CurrencyCard: View {
                 Spacer()
                 
                 Text(amount)
-                    .font(.title2)
+                    .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(amountColor)
             }
         }
         .padding()
-        .background(Color.white)
+        .padding(.bottom, 10)
+        .padding(.top, topContentPadding)
+        .background(backgroundColor)
         .cornerRadius(12)
         .shadow(color: .gray.opacity(0.2), radius: 4, x: 0, y: 2)
     }
@@ -61,21 +65,9 @@ struct CurrencyCard: View {
                 limit: 20000
             ),
             amount: "100.00",
-            amountColor: .blue
-        )
-        
-        CurrencyCard(
-            title: "Receiver gets",
-            currency: Currency(
-                id: UUID(),
-                code: "UAH",
-                countryName: "Ukraine",
-                currencyName: "Hrivna",
-                flag: "UAH",
-                limit: 50000
-            ),
-            amount: "723.38",
-            amountColor: .black
+            amountColor: .blue,
+            backgroundColor: .white,
+            topContentPadding: 0
         )
     }
     .padding()

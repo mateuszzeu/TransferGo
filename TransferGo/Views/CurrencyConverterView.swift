@@ -11,33 +11,41 @@ struct CurrencyConverterView: View {
     @StateObject private var viewModel = CurrencyConverterViewModel()
     
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Currency Converter")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+        ZStack(alignment: .top) {
+            CurrencyCard(
+                title: "Sending from",
+                currency: viewModel.fromCurrency,
+                amount: viewModel.fromAmount,
+                amountColor: .blue,
+                backgroundColor: .white,
+                topContentPadding: 0
+            )
+            .padding(.horizontal)
+            .zIndex(1)
             
-            VStack(spacing: 16) {
-                Text("From: \(viewModel.fromCurrency.countryName) (\(viewModel.fromCurrency.code))")
-                Text("Amount: \(viewModel.fromAmount)")
-                
-                if viewModel.exchangeRate > 0 {
-                    Text("Rate: \(String(format: "%.4f", viewModel.exchangeRate))")
-                }
-                
-                Text("To: \(viewModel.toCurrency.countryName) (\(viewModel.toCurrency.code))")
-                Text("Result: \(viewModel.toAmount)")
-                
-                if viewModel.isLoading {
-                    ProgressView("Loading...")
-                }
-                
-                if !viewModel.errorMessage.isEmpty {
-                    Text(viewModel.errorMessage)
-                        .foregroundColor(.red)
-                }
-            }
+            CurrencyCard(
+                title: "Receiver gets",
+                currency: viewModel.toCurrency,
+                amount: viewModel.toAmount,
+                amountColor: .black,
+                backgroundColor: Color(red: 0.94, green: 0.94, blue: 0.94),
+                topContentPadding: 30
+            )
+            .padding(.horizontal)
+            .padding(.top, 85)
+            .zIndex(0)
+            
+            Text("1 PLN = 7.23 UAH")
+                .font(.caption)
+                .fontWeight(.medium)
+                .foregroundColor(.white)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 2)
+                .background(Color.black)
+                .cornerRadius(16)
+                .offset(y: 105)
+                .zIndex(2)
         }
-        .padding()
     }
 }
 
