@@ -10,6 +10,6 @@ struct ExchangeRate: Codable {
     let from: String
     let to: String
     let rate: Double
-    let amount: Double
-    let convertedAmount: Double
+    let fromAmount: Double
+    let toAmount: Double
 }
