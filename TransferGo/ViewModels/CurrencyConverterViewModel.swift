@@ -49,4 +49,38 @@ class CurrencyConverterViewModel: ObservableObject {
         
         isLoading = false
     }
+    
+    func swapCurrencies() {
+        let tempCurrency = fromCurrency
+        fromCurrency = toCurrency
+        toCurrency = tempCurrency
+        
+        let tempAmount = fromAmount
+        fromAmount = toAmount
+        toAmount = tempAmount
+        
+        Task {
+            await loadExchangeRate()
+        }
+    }
+    
+    func updateFromAmount(_ newAmount: String) {
+        fromAmount = newAmount
+        Task {
+            await loadExchangeRate()
+        }
+    }
+    
+    func updateToAmount(_ newAmount: String) {
+        toAmount = newAmount
+        
+        Task {
+            await loadExchangeRate()
+            
+            if let toAmountValue = Double(newAmount), exchangeRate > 0 {
+                let fromAmountValue = toAmountValue / exchangeRate
+                fromAmount = String(format: "%.2f", fromAmountValue)
+            }
+        }
+    }
 }

@@ -13,6 +13,8 @@ struct CurrencyCard: View {
     let amountColor: Color
     let backgroundColor: Color
     let topContentPadding: CGFloat
+    let isEditable: Bool
+    let onAmountChange: (String) -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -67,7 +69,9 @@ struct CurrencyCard: View {
             amount: "100.00",
             amountColor: .blue,
             backgroundColor: .white,
-            topContentPadding: 0
+            topContentPadding: 0,
+            isEditable: true,
+            onAmountChange: { _ in }
         )
     }
     .padding()

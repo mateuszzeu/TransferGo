@@ -18,7 +18,11 @@ struct CurrencyConverterView: View {
                 amount: viewModel.fromAmount,
                 amountColor: .blue,
                 backgroundColor: .white,
-                topContentPadding: 0
+                topContentPadding: 0,
+                isEditable: true,
+                onAmountChange: { newAmount in 
+                    viewModel.updateFromAmount(newAmount)
+                }
             )
             .padding(.horizontal)
             .zIndex(1)
@@ -29,21 +33,25 @@ struct CurrencyConverterView: View {
                 amount: viewModel.toAmount,
                 amountColor: .black,
                 backgroundColor: Color(red: 0.94, green: 0.94, blue: 0.94),
-                topContentPadding: 30
+                topContentPadding: 30,
+                isEditable: true,
+                onAmountChange: { newAmount in
+                    viewModel.updateToAmount(newAmount)
+                }
             )
             .padding(.horizontal)
             .padding(.top, 85)
             .zIndex(0)
             
-            ExchangeRateDisplay(rate: "1 PLN = 7.23 UAH")
+            ExchangeRateDisplay(rate: "1 \(viewModel.fromCurrency.code) = \(String(format: "%.4f", viewModel.exchangeRate)) \(viewModel.toCurrency.code)")
                 .offset(y: 105)
                 .zIndex(2)
             
             SwapButton(action: {
-                
-                })
-                .offset(x: -130, y: 100)
-                .zIndex(2)
+                viewModel.swapCurrencies()
+            })
+            .offset(x: -130, y: 100)
+            .zIndex(2)
         }
     }
 }
