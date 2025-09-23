@@ -13,7 +13,7 @@ class CurrencyService {
             code: "PLN",
             name: "Poland",
             country: "Polska",
-            flag: "",
+            flag: "PLN",
             limit: 20000
         ),
         Currency(
@@ -21,7 +21,7 @@ class CurrencyService {
             code: "EUR",
             name: "Germany",
             country: "Niemcy",
-            flag: "",
+            flag: "EUR",
             limit: 5000
         ),
         Currency(
@@ -29,7 +29,7 @@ class CurrencyService {
             code: "GBP",
             name: "Great Britain",
             country: "Wielka Brytania",
-            flag: "",
+            flag: "GBP",
             limit: 1000
         ),
         Currency(
@@ -37,7 +37,7 @@ class CurrencyService {
             code: "UAH",
             name: "Ukraine",
             country: "Ukraina",
-            flag: "",
+            flag: "UAH",
             limit: 50000
         )
     ]
