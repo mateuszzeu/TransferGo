@@ -45,6 +45,12 @@ struct CurrencyConverterView: View {
                 .cornerRadius(16)
                 .offset(y: 105)
                 .zIndex(2)
+            
+            SwapButton(action: {
+                
+                })
+                .offset(x: -130, y: 100)
+                .zIndex(2)
         }
     }
 }
