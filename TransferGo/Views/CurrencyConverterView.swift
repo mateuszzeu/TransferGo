@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  CurrencyConverterView.swift
 //  TransferGo
 //
 //  Created by MAT on 23/09/2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct CurrencyConverterView: View {
     var body: some View {
         VStack {
             Text("Test")
@@ -16,5 +16,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    CurrencyConverterView()
 }

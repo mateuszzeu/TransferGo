@@ -11,32 +11,32 @@ class CurrencyService {
         Currency(
             id: UUID(),
             code: "PLN",
-            name: "Poland",
-            country: "Polska",
+            countryName: "Poland",
+            currencyName: "Polish zloty",
             flag: "PLN",
             limit: 20000
         ),
         Currency(
             id: UUID(),
             code: "EUR",
-            name: "Germany",
-            country: "Niemcy",
+            countryName: "Germany",
+            currencyName: "Euro",
             flag: "EUR",
             limit: 5000
         ),
         Currency(
             id: UUID(),
             code: "GBP",
-            name: "Great Britain",
-            country: "Wielka Brytania",
+            countryName: "Great Britain",
+            currencyName: "British Pound",
             flag: "GBP",
             limit: 1000
         ),
         Currency(
             id: UUID(),
             code: "UAH",
-            name: "Ukraine",
-            country: "Ukraina",
+            countryName: "Ukraine",
+            currencyName: "Hrivna",     
             flag: "UAH",
             limit: 50000
         )

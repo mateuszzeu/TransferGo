@@ -9,8 +9,8 @@ import Foundation
 struct Currency: Identifiable, Codable, Equatable {
     let id: UUID
     let code: String
-    let name: String
-    let country: String
+    let countryName: String
+    let currencyName: String
     let flag: String
     let limit: Double
 }
