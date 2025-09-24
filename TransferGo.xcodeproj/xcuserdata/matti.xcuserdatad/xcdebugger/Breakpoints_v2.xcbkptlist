@@ -14,8 +14,52 @@
             filePath = "TransferGo/ViewModels/CurrencyConverterViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87">
+            startingLineNumber = "112"
+            endingLineNumber = "112">
+            <Locations>
+               <Location
+                  uuid = "E0727376-49A8-4F9A-9348-A078A312BB21 - 1c334fcac9ccc736"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TransferGo.CurrencyConverterViewModel.updateToAmount(Swift.String) -&gt; ()"
+                  moduleName = "TransferGo.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/matti/Desktop/TransferGo/TransferGo/ViewModels/CurrencyConverterViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113">
+               </Location>
+               <Location
+                  uuid = "E0727376-49A8-4F9A-9348-A078A312BB21 - 47e9c66053fe9672"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () async -&gt; () in TransferGo.CurrencyConverterViewModel.updateToAmount(Swift.String) -&gt; ()"
+                  moduleName = "TransferGo.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/matti/Desktop/TransferGo/TransferGo/ViewModels/CurrencyConverterViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113">
+               </Location>
+               <Location
+                  uuid = "E0727376-49A8-4F9A-9348-A078A312BB21 - b3c757f5e609fb1d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in TransferGo.CurrencyConverterViewModel.updateToAmount(Swift.String) -&gt; ()"
+                  moduleName = "TransferGo.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/matti/Desktop/TransferGo/TransferGo/ViewModels/CurrencyConverterViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -9,6 +9,7 @@ import Foundation
 
 @MainActor
 class CurrencyConverterViewModel: ObservableObject {
+    
     @Published var fromCurrency: Currency
     @Published var toCurrency: Currency
     @Published var fromAmount: String = "300.00"
@@ -16,6 +17,8 @@ class CurrencyConverterViewModel: ObservableObject {
     @Published var exchangeRate: Double = 0.0
     @Published var isLoading: Bool = false
     @Published var errorMessage: String = ""
+    @Published var limitExceeded: Bool = false
+    @Published var limitMessage: String = ""
     
     private let networkService = NetworkService()
     let currencyService = CurrencyService()
@@ -42,7 +45,6 @@ class CurrencyConverterViewModel: ObservableObject {
             
             exchangeRate = rate.rate
             toAmount = String(format: "%.2f", rate.toAmount)
-            
         } catch {
             errorMessage = "Error loading exchange rate"
         }
@@ -66,6 +68,24 @@ class CurrencyConverterViewModel: ObservableObject {
     
     func updateFromAmount(_ newAmount: String) {
         fromAmount = newAmount
+        
+        if newAmount.isEmpty || newAmount == "0" {
+            fromAmount = "0"
+            toAmount = "0"
+            limitExceeded = false
+            limitMessage = ""
+            return
+        }
+        
+        if !validateLimit(newAmount) {
+            limitExceeded = true
+            limitMessage = "Maximum sending amount: \(Int(fromCurrency.limit)) \(fromCurrency.code)"
+            return
+        }
+        
+        limitExceeded = false
+        limitMessage = ""
+        
         Task {
             await loadExchangeRate()
         }
@@ -82,5 +102,10 @@ class CurrencyConverterViewModel: ObservableObject {
                 fromAmount = String(format: "%.2f", fromAmountValue)
             }
         }
+    }
+    
+    func validateLimit(_ amount: String) -> Bool {
+        guard let amountValue = Double(amount) else { return false }
+        return amountValue <= fromCurrency.limit
     }
 }

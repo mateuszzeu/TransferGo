@@ -27,6 +27,9 @@ struct CurrencyConverterView: View {
                     showingCurrencySheet = true
                 }
             )
+            .onChange(of: viewModel.fromAmount) { _, newValue in
+                viewModel.updateFromAmount(newValue)
+            }
             .padding(.horizontal)
             .zIndex(1)
             
@@ -55,6 +58,13 @@ struct CurrencyConverterView: View {
             })
             .offset(x: -130, y: 100)
             .zIndex(2)
+            
+            if viewModel.limitExceeded {
+                LimitWarningView(message: viewModel.limitMessage)
+                    .padding(.horizontal)
+                    .offset(y: 250)
+                    .zIndex(3)
+            }
         }
         .sheet(isPresented: $showingCurrencySheet) {
             CurrencyListSheet(

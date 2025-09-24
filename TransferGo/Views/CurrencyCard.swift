@@ -38,7 +38,7 @@ struct CurrencyCard: View {
                 
                 Spacer()
 
-                TextField("", text: $amount)
+                TextField("0.00", text: $amount)
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(amountColor)
