@@ -87,6 +87,29 @@ class CurrencyConverterViewModel: ObservableObject {
         }
     }
     
+    func updateToAmount(_ newAmount: String) {
+        toAmount = newAmount
+        
+        guard let newAmountValue = Double(newAmount), exchangeRate != 0 else {
+            fromAmount = "0"
+            limitExceeded = false
+            limitMessage = ""
+            return
+        }
+        
+        let calculatedFromAmount = newAmountValue / exchangeRate
+        
+        fromAmount = String(format: "%.2f", calculatedFromAmount)
+        
+        if !validateLimit(fromAmount) {
+            limitExceeded = true
+            limitMessage = "Maximum sending amount: \(Int(fromCurrency.limit)) \(fromCurrency.code)"
+        } else {
+            limitExceeded = false
+            limitMessage = ""
+        }
+    }
+    
     func validateLimit(_ amount: String) -> Bool {
         guard let amountValue = Double(amount) else { return false }
         return amountValue <= fromCurrency.limit

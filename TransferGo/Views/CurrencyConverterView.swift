@@ -48,6 +48,9 @@ struct CurrencyConverterView: View {
             .padding(.horizontal)
             .padding(.top, 85)
             .zIndex(0)
+            .onChange(of: viewModel.toAmount) { _, newValue in
+                viewModel.updateToAmount(newValue)
+            }
             
             ExchangeRateDisplay(rate: "1 \(viewModel.fromCurrency.code) = \(String(format: "%.4f", viewModel.exchangeRate)) \(viewModel.toCurrency.code)")
                 .offset(y: 105)
