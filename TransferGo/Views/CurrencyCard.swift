@@ -9,40 +9,41 @@ import SwiftUI
 struct CurrencyCard: View {
     let title: String
     let currency: Currency
-    let amount: String
+    @Binding var amount: String
     let amountColor: Color
     let backgroundColor: Color
     let topContentPadding: CGFloat
-    let isEditable: Bool
-    let onAmountChange: (String) -> Void
-    
+    let onCurrencyTap: () -> Void
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
                 .font(.subheadline)
                 .foregroundColor(.gray)
-            
+
             HStack(alignment: .top) {
-                HStack {
-                    Image(currency.flag)
-                        //.resizable()
-                        .frame(width: 32, height: 34)
-                    
-                    Text(currency.code)
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                    
-                    Image(systemName: "chevron.down")
-                        .font(.caption)
-                        .foregroundColor(.gray)
+                Button(action: onCurrencyTap) {
+                    HStack {
+                        Image(currency.flag)
+                            .frame(width: 32, height: 34)
+                        Text(currency.code)
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        Image(systemName: "chevron.down")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
                 }
+                .buttonStyle(PlainButtonStyle())
                 
                 Spacer()
-                
-                Text(amount)
+
+                TextField("", text: $amount)
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(amountColor)
+                    .multilineTextAlignment(.trailing)
+                    .keyboardType(.decimalPad)
             }
         }
         .padding()
@@ -66,12 +67,11 @@ struct CurrencyCard: View {
                 flag: "PLN",
                 limit: 20000
             ),
-            amount: "100.00",
+            amount: .constant("100.00"),
             amountColor: .blue,
             backgroundColor: .white,
             topContentPadding: 0,
-            isEditable: true,
-            onAmountChange: { _ in }
+            onCurrencyTap: { }
         )
     }
     .padding()

@@ -18,7 +18,7 @@ class CurrencyConverterViewModel: ObservableObject {
     @Published var errorMessage: String = ""
     
     private let networkService = NetworkService()
-    private let currencyService = CurrencyService()
+    let currencyService = CurrencyService()
     
     init() {
         self.fromCurrency = currencyService.getDefaultFromCurrency()

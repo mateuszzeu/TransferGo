@@ -10,18 +10,21 @@ import SwiftUI
 struct CurrencyConverterView: View {
     @StateObject private var viewModel = CurrencyConverterViewModel()
     
+    @State private var showingCurrencySheet = false
+    @State private var isSelectingFromCurrency = true
+    
     var body: some View {
         ZStack(alignment: .top) {
             CurrencyCard(
                 title: "Sending from",
                 currency: viewModel.fromCurrency,
-                amount: viewModel.fromAmount,
+                amount: $viewModel.fromAmount,
                 amountColor: .blue,
                 backgroundColor: .white,
                 topContentPadding: 0,
-                isEditable: true,
-                onAmountChange: { newAmount in 
-                    viewModel.updateFromAmount(newAmount)
+                onCurrencyTap: {
+                    isSelectingFromCurrency = true
+                    showingCurrencySheet = true
                 }
             )
             .padding(.horizontal)
@@ -30,13 +33,13 @@ struct CurrencyConverterView: View {
             CurrencyCard(
                 title: "Receiver gets",
                 currency: viewModel.toCurrency,
-                amount: viewModel.toAmount,
+                amount: $viewModel.toAmount,
                 amountColor: .black,
                 backgroundColor: Color(red: 0.94, green: 0.94, blue: 0.94),
                 topContentPadding: 30,
-                isEditable: true,
-                onAmountChange: { newAmount in
-                    viewModel.updateToAmount(newAmount)
+                onCurrencyTap: {
+                    isSelectingFromCurrency = false
+                    showingCurrencySheet = true
                 }
             )
             .padding(.horizontal)
@@ -52,6 +55,20 @@ struct CurrencyConverterView: View {
             })
             .offset(x: -130, y: 100)
             .zIndex(2)
+        }
+        .sheet(isPresented: $showingCurrencySheet) {
+            CurrencyListSheet(
+                currencies: viewModel.currencyService.supportedCurrencies,
+                title: isSelectingFromCurrency ? "Sending from" : "Sending to",
+                onCurrencySelected: { currency in
+                    if isSelectingFromCurrency {
+                        viewModel.fromCurrency = currency
+                    } else {
+                        viewModel.toCurrency = currency
+                    }
+                    Task { await viewModel.loadExchangeRate() }
+                }
+            )
         }
     }
 }
