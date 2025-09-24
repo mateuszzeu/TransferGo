@@ -15,7 +15,6 @@ class CurrencyConverterViewModel: ObservableObject {
     @Published var fromAmount: String = "300.00"
     @Published var toAmount: String = ""
     @Published var exchangeRate: Double = 0.0
-    @Published var isLoading: Bool = false
     @Published var errorMessage: String = ""
     @Published var limitExceeded: Bool = false
     @Published var limitMessage: String = ""
@@ -32,7 +31,6 @@ class CurrencyConverterViewModel: ObservableObject {
     }
     
     func loadExchangeRate() async {
-        isLoading = true
         errorMessage = ""
         
         do {
@@ -48,8 +46,6 @@ class CurrencyConverterViewModel: ObservableObject {
         } catch {
             errorMessage = "Error loading exchange rate"
         }
-        
-        isLoading = false
     }
     
     func swapCurrencies() {
@@ -88,19 +84,6 @@ class CurrencyConverterViewModel: ObservableObject {
         
         Task {
             await loadExchangeRate()
-        }
-    }
-    
-    func updateToAmount(_ newAmount: String) {
-        toAmount = newAmount
-        
-        Task {
-            await loadExchangeRate()
-            
-            if let toAmountValue = Double(newAmount), exchangeRate > 0 {
-                let fromAmountValue = toAmountValue / exchangeRate
-                fromAmount = String(format: "%.2f", fromAmountValue)
-            }
         }
     }
     
