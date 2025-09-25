@@ -1,7 +1,6 @@
 ## TransferGo Currency Converter App
 This project is an iOS mobile application (SwiftUI) that implements a currency converter using the TransferGo public FX rates API.
 
-### ✨ Solution Summary
 The app is built with MVVM and modern SwiftUI components. Key features include:
 
 - API Integration: for real-time exchange rates.
