@@ -12,6 +12,7 @@ struct TransferGoApp: App {
     var body: some Scene {
         WindowGroup {
             CurrencyConverterView()
+                .preferredColorScheme(.light)
         }
     }
 }
