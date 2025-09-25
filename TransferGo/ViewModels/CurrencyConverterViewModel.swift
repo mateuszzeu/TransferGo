@@ -1,4 +1,3 @@
-//
 //  CurrencyConverterViewModel.swift
 //  TransferGo
 //
@@ -15,50 +14,69 @@ class CurrencyConverterViewModel: ObservableObject {
     @Published var fromAmount: String = "300.00"
     @Published var toAmount: String = ""
     @Published var exchangeRate: Double = 0.0
+    
+    @Published var isFromChangeCausedByAPI: Bool = false
+    @Published var isToChangeCausedByAPI: Bool = false
+
     @Published var errorMessage: String = ""
     @Published var limitExceeded: Bool = false
     @Published var limitMessage: String = ""
     
-    private let networkService = NetworkService()
     let currencyService = CurrencyService()
+    private let networkService = NetworkService()
+    
+    private var apiTask: Task<Void, Error>?
     
     init() {
         self.fromCurrency = currencyService.getDefaultFromCurrency()
         self.toCurrency = currencyService.getDefaultToCurrency()
-        Task {
-            await loadExchangeRate()
-        }
+        
+        updateFromAmount(fromAmount)
     }
     
-    func loadExchangeRate() async {
+    func loadExchangeRate(fromAmount: Double) async {
+        
         errorMessage = ""
         
         do {
-            let amount = Double(fromAmount) ?? 0.0
             let rate = try await networkService.getExchangeRate(
                 from: fromCurrency.code,
                 to: toCurrency.code,
-                amount: amount
+                amount: fromAmount
             )
             
+            try Task.checkCancellation()
+            
             exchangeRate = rate.rate
+            isToChangeCausedByAPI = true
             toAmount = String(format: "%.2f", rate.toAmount)
+            
+        } catch is CancellationError {
         } catch {
-            errorMessage = "Error loading exchange rate"
+            errorMessage = "Error loading exchange rate: \(error.localizedDescription)"
         }
     }
     
-    func swapCurrencies() {
-        let tempCurrency = fromCurrency
-        fromCurrency = toCurrency
-        toCurrency = tempCurrency
+    func loadReverseExchangeRate(toAmount: Double) async {
         
-        let tempAmount = fromAmount
-        fromAmount = toAmount
-        toAmount = tempAmount
+        errorMessage = ""
         
-        Task {
-            await loadExchangeRate()
+        do {
+            let swappedRate = try await networkService.getExchangeRate(
+                from: toCurrency.code,
+                to: fromCurrency.code,
+                amount: toAmount
+            )
+            
+            try Task.checkCancellation()
+            
+            isFromChangeCausedByAPI = true
+            fromAmount = String(format: "%.2f", swappedRate.toAmount)
+            exchangeRate = 1 / swappedRate.rate
+            
+        } catch is CancellationError {
+        } catch {
+            errorMessage = "Error loading exchange rate: \(error.localizedDescription)"
         }
     }
     
@@ -82,35 +100,56 @@ class CurrencyConverterViewModel: ObservableObject {
         limitExceeded = false
         limitMessage = ""
         
-        Task {
-            await loadExchangeRate()
+        apiTask?.cancel()
+        apiTask = Task {
+            await loadExchangeRate(fromAmount: Double(newAmount) ?? 0.0)
         }
     }
     
     func updateToAmount(_ newAmount: String) {
         toAmount = newAmount
         
-        guard let newAmountValue = Double(newAmount), exchangeRate != 0 else {
+        if newAmount.isEmpty || newAmount == "0" {
             fromAmount = "0"
+            toAmount = "0"
             limitExceeded = false
             limitMessage = ""
             return
         }
         
-        let calculatedFromAmount = newAmountValue / exchangeRate
+        guard let targetToAmount = Double(newAmount) else { return }
         
-        fromAmount = String(format: "%.2f", calculatedFromAmount)
-        
-        if !validateLimit(fromAmount) {
-            limitExceeded = true
-            limitMessage = "Maximum sending amount: \(Int(fromCurrency.limit)) \(fromCurrency.code)"
-        } else {
-            limitExceeded = false
-            limitMessage = ""
+        apiTask?.cancel()
+        apiTask = Task {
+            await loadReverseExchangeRate(toAmount: targetToAmount)
+            
+            if !validateLimit(fromAmount) {
+                limitExceeded = true
+                limitMessage = "Maximum sending amount: \(Int(fromCurrency.limit)) \(fromCurrency.code)"
+            } else {
+                limitExceeded = false
+                limitMessage = ""
+            }
         }
     }
     
-    func validateLimit(_ amount: String) -> Bool {
+    func swapCurrencies() {
+        apiTask?.cancel()
+        
+        let tempCurrency = fromCurrency
+        fromCurrency = toCurrency
+        toCurrency = tempCurrency
+        
+        let tempAmount = fromAmount
+        fromAmount = toAmount
+        toAmount = tempAmount
+        
+        apiTask = Task {
+            await loadExchangeRate(fromAmount: Double(fromAmount) ?? 0.0)
+        }
+    }
+    
+    private func validateLimit(_ amount: String) -> Bool {
         guard let amountValue = Double(amount) else { return false }
         return amountValue <= fromCurrency.limit
     }
