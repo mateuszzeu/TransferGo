@@ -8,6 +8,8 @@ import SwiftUI
 struct CurrencyConverterView: View {
     @StateObject private var viewModel = CurrencyConverterViewModel()
     
+    @StateObject private var networkViewModel = NetworkMonitorViewModel()
+    
     @State private var showingCurrencySheet = false
     @State private var isSelectingFromCurrency = true
     @State private var isEditingFrom = false
@@ -119,6 +121,15 @@ struct CurrencyConverterView: View {
                 }
             )
         }
+        .overlay(alignment: .top) {
+            if networkViewModel.shouldShowBanner {
+                NetworkErrorBanner(onDismiss: networkViewModel.dismissBanner)
+                    .transition(.move(edge: .top))
+                    .zIndex(10)
+            }
+        }
+        .animation(.default, value: networkViewModel.shouldShowBanner)
+        .ignoresSafeArea(.container, edges: .top)
     }
 }
 
