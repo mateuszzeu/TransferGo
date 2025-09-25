@@ -12,5 +12,5 @@ struct Currency: Identifiable, Codable, Equatable {
     let countryName: String
     let currencyName: String
     let flag: String
-    let limit: Double
+    let limit: Float
 }

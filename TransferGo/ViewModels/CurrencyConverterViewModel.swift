@@ -34,7 +34,7 @@ class CurrencyConverterViewModel: ObservableObject {
         updateFromAmount(fromAmount)
     }
     
-    func loadExchangeRate(fromAmount: Double) async {
+    func loadExchangeRate(fromAmount: Float) async {
         
         errorMessage = ""
         
@@ -57,7 +57,7 @@ class CurrencyConverterViewModel: ObservableObject {
         }
     }
     
-    func loadReverseExchangeRate(toAmount: Double) async {
+    func loadReverseExchangeRate(toAmount: Float) async {
         
         errorMessage = ""
         
@@ -102,7 +102,7 @@ class CurrencyConverterViewModel: ObservableObject {
         
         apiTask?.cancel()
         apiTask = Task {
-            await loadExchangeRate(fromAmount: Double(newAmount) ?? 0.0)
+            await loadExchangeRate(fromAmount: Float(newAmount) ?? 0.0)
         }
     }
     
@@ -117,7 +117,7 @@ class CurrencyConverterViewModel: ObservableObject {
             return
         }
         
-        guard let targetToAmount = Double(newAmount) else { return }
+        guard let targetToAmount = Float(newAmount) else { return }
         
         apiTask?.cancel()
         apiTask = Task {
@@ -145,12 +145,12 @@ class CurrencyConverterViewModel: ObservableObject {
         toAmount = tempAmount
         
         apiTask = Task {
-            await loadExchangeRate(fromAmount: Double(fromAmount) ?? 0.0)
+            await loadExchangeRate(fromAmount: Float(fromAmount) ?? 0.0)
         }
     }
     
     private func validateLimit(_ amount: String) -> Bool {
-        guard let amountValue = Double(amount) else { return false }
+        guard let amountValue = Float(amount) else { return false }
         return amountValue <= fromCurrency.limit
     }
 }

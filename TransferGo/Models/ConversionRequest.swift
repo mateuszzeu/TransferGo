@@ -9,5 +9,5 @@ import Foundation
 struct ConversionRequest: Codable {
     let from: String
     let to: String
-    let amount: Double
+    let amount: Float
 }

@@ -14,7 +14,7 @@ class CurrencyService {
             countryName: "Poland",
             currencyName: "Polish zloty",
             flag: "PLN",
-            limit: 20000
+            limit: 20000.0
         ),
         Currency(
             id: UUID(),
@@ -22,7 +22,7 @@ class CurrencyService {
             countryName: "Germany",
             currencyName: "Euro",
             flag: "EUR",
-            limit: 5000
+            limit: 5000.0
         ),
         Currency(
             id: UUID(),
@@ -30,7 +30,7 @@ class CurrencyService {
             countryName: "Great Britain",
             currencyName: "British Pound",
             flag: "GBP",
-            limit: 1000
+            limit: 1000.0
         ),
         Currency(
             id: UUID(),
@@ -38,7 +38,7 @@ class CurrencyService {
             countryName: "Ukraine",
             currencyName: "Hrivna",     
             flag: "UAH",
-            limit: 50000
+            limit: 50000.0
         )
     ]
     
@@ -50,7 +50,7 @@ class CurrencyService {
         return supportedCurrencies[3]
     }
     
-    func getDefaultAmount() -> Double {
+    func getDefaultAmount() -> Float {
         return 300.0
     }
 }

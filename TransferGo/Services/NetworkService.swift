@@ -9,7 +9,7 @@ import Foundation
 class NetworkService {
     private let baseURL = "https://my.transfergo.com/api"
     
-    func getExchangeRate(from: String, to: String, amount: Double) async throws -> ExchangeRate {
+    func getExchangeRate(from: String, to: String, amount: Float) async throws -> ExchangeRate {
         var urlComponents = URLComponents(string: "\(baseURL)/fx-rates")
         urlComponents?.queryItems = [
             URLQueryItem(name: "from", value: from),
