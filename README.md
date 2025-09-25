@@ -3,7 +3,7 @@ This project is an iOS mobile application (SwiftUI) that implements a currency c
 
 The app is built with MVVM and modern SwiftUI components. Key features include:
 
-- API Integration: for real-time exchange rates.
+- API Integration: https://my.transfergo.com/api/fx-rates for real-time exchange rates.
 - Two-Way Conversion: Allows the user to change the sending amount (FROM) or the receiving amount (TO), triggering the necessary API call for conversion or reverse conversion.
 - Currency Swap: A dedicated button swaps the FROM and TO currencies, updating all amounts and rates.
 - Limit Validation: Checks the sending amount against the mocked currency limits (e.g., 20000 PLN) and displays a warning.
