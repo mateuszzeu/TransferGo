@@ -12,7 +12,7 @@ The app is built with MVVM and modern SwiftUI components. Key features include:
 
 ### 🛠 Run Instructions
 - Clone the Repository
-- Open the project file: TransferGo.xcodeproj
+- Open the project file: TransferGo.xcodeproj in Xcode
 - Select the TransferGo scheme
 - Choose a target simulator (e.g., iPhone 15)
 - Press Run (Cmd + R)
